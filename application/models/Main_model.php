@@ -4,21 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Main_model extends CI_Model
 {
 
-    function getJsonData($apiUrl)
-    {
-        $client = curl_init($apiUrl);
 
-        curl_setopt($client, CURLOPT_RETURNTRANSFER, true); //wil give the json
-
-        $response = curl_exec($client);
-
-        curl_close($client); //close the resources. 
-
-        $result = json_decode($response, true);
-
-        // var_dump($result);
-        $this->Main_model->showNormalArray($result);
-    }
 
     //every time you will click a new nav. the system will let you 
     //login again to access the voucher sending
@@ -120,6 +106,7 @@ class Main_model extends CI_Model
 
         foreach ($table->result() as $row) {
             $data['firstname'] = $row->firstname;
+            $data['middlename'] = $row->middlename;
             $data['lastname'] = $row->lastname;
         }
         return $data;
@@ -131,9 +118,10 @@ class Main_model extends CI_Model
         if (count($table->result_array()) != 0) {
             foreach ($table->result() as $row) {
                 $firstname = ucfirst($row->firstname);
+                $middlename = ucfirst($row->middlename);
                 $lastname = ucfirst($row->lastname);
 
-                $fullName = "$firstname $lastname";
+                $fullName = "$firstname $middlename $lastname";
             }
 
             return $fullName;
